@@ -13,11 +13,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id           String        @id @default(cuid())
+  firstName    String
+  lastName     String
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+  transactions Transaction[]
+  savings      Saving[]
+}
+
 model Transaction {
-  id              Int      @id
+  id              String           @id @default(cuid())
   description     String
   amount          Int
-  type            String
-  date            DateTime @updatedAt
-  expenseCategory String?
+  type            TransactionType
+  date            DateTime         @default(now())
+  expenseCategory ExpenseCategory?
+  user            User             @relation(fields: [userId], references: [id])
+  userId          String
+}
+
+model Saving {
+  id        String   @id @default(cuid())
+  aim       String
+  traget    Int
+  saved     Int
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  user      User     @relation(fields: [userId], references: [id])
+  userId    String
+}
+
+enum TransactionType {
+  INCOME
+  EXPENSE
+}
+
+enum ExpenseCategory {
+  SHOPPING
+  FOOD_AND_DRINKS
+  STATIONERY
+  TRANSPORT
 }
