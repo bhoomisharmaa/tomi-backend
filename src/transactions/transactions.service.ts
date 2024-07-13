@@ -1,6 +1,5 @@
 import { Injectable } from '@nestjs/common';
 import { $Enums, Prisma } from '@prisma/client';
-import { error } from 'console';
 import { DatabaseService } from 'src/database/database.service';
 
 @Injectable()
@@ -17,12 +16,7 @@ export class TransactionsService {
 
         data: {
           transactions: {
-            create: {
-              description: 'Flight booking',
-              amount: 1000,
-              type: 'EXPENSE',
-              expenseCategory: 'TRANSPORT',
-            },
+            create: data,
           },
         },
       });

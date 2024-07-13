@@ -1,6 +1,6 @@
-import { Body, Controller, Post } from '@nestjs/common';
+import { Body, Controller, Delete, Get, Param, Post } from '@nestjs/common';
 import { TransactionsService } from './transactions.service';
-import { Prisma } from '@prisma/client';
+import { $Enums, Prisma } from '@prisma/client';
 
 @Controller('transactions')
 export class TransactionsController {
@@ -9,5 +9,24 @@ export class TransactionsController {
   @Post('create-transaction')
   async createTransaction(@Body() data: Prisma.TransactionCreateInput) {
     return await this.transactionService.createTransaction(data);
+  }
+
+  @Get('get-transactions/all')
+  async getAllTransactions() {
+    return await this.transactionService.getAllTransactions();
+  }
+
+  @Get('get-transactions/:transactionType')
+  async getIncomeOrExpenseTransactions(
+    @Param('transactionType') transactionType: $Enums.TransactionType,
+  ) {
+    return await this.transactionService.getIncomeOrExpenseTransactions(
+      transactionType,
+    );
+  }
+
+  @Delete('delete-transaction/:id')
+  async deleteTransaction(@Param('id') id: string) {
+    return await this.transactionService.deleteTransaction(id);
   }
 }
