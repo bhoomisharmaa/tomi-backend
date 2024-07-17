@@ -24,8 +24,8 @@ async function bootstrap() {
           lastName: 'Sharma',
           createdAt: 2024-07-12T18:48:24.714Z,
           updatedAt: 2024-07-12T18:48:24.714Z}*/
-      const user = await prisma.user.create({
-        data: {
+      const user = await prisma.user.findMany({
+        where: {
           firstName: 'Bhoomi',
           lastName: 'Sharma',
         },
@@ -37,5 +37,7 @@ async function bootstrap() {
       await prisma.$disconnect();
     }
   }
+
+  createUser();
 }
 bootstrap();

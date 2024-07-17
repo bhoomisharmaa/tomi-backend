@@ -29,7 +29,7 @@ model Transaction {
   amount          Int
   type            TransactionType
   date            DateTime         @default(now())
-  expenseCategory ExpenseCategory?
+  category TransactionCategory?
   user            User             @relation(fields: [userId], references: [id])
   userId          String
 }
@@ -50,7 +50,7 @@ enum TransactionType {
   EXPENSE
 }
 
-enum ExpenseCategory {
+enum TransactionCategory {
   SHOPPING
   FOOD_AND_DRINKS
   STATIONERY

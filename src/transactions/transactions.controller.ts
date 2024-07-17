@@ -16,12 +16,16 @@ export class TransactionsController {
     return await this.transactionService.getAllTransactions();
   }
 
-  @Get('get-transactions/:transactionType')
+  @Get('get-transactions/:transactionType/:month')
   async getIncomeOrExpenseTransactions(
-    @Param('transactionType') transactionType: $Enums.TransactionType,
+    @Param('transactionType') transactionType: string,
+    @Param('month') month: string,
   ) {
     return await this.transactionService.getIncomeOrExpenseTransactions(
-      transactionType,
+      $Enums.TransactionType[
+        transactionType as keyof typeof $Enums.TransactionType
+      ],
+      month,
     );
   }
 

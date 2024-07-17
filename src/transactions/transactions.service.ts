@@ -50,6 +50,7 @@ export class TransactionsService {
 
   async getIncomeOrExpenseTransactions(
     transactionType: $Enums.TransactionType,
+    month: string,
   ) {
     try {
       const transactions = this.databaseService.transaction.findMany({
