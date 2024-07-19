@@ -20,7 +20,6 @@ export class TransactionsService {
           },
         },
       });
-      console.log(transaction);
       return transaction;
     } catch (error) {
       console.log('Error making your transaction', error);
@@ -39,7 +38,6 @@ export class TransactionsService {
           date: 'desc',
         },
       });
-      console.log(transactions);
       return transactions;
     } catch (error) {
       console.log('Error fetching transactions', error);
@@ -50,7 +48,6 @@ export class TransactionsService {
 
   async getIncomeOrExpenseTransactions(
     transactionType: $Enums.TransactionType,
-    month: string,
   ) {
     try {
       const transactions = this.databaseService.transaction.findMany({
@@ -58,11 +55,11 @@ export class TransactionsService {
           userId: 'clyj1wmmh0000izpo07lh36gt',
           type: transactionType,
         },
+
         orderBy: {
           date: 'desc',
         },
       });
-      console.log(transactions);
       return transactions;
     } catch (error) {
       console.log('Error getting transaction', error);
