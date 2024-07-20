@@ -27,6 +27,36 @@ export class TransactionsController {
     );
   }
 
+  @Get('get-transactions/:transactionType/:startDate/:endDate')
+  async getTransactionInRange(
+    @Param('transactionType') transactionType: string,
+    @Param('startDate') startDate: string,
+    @Param('endDate') endDate: string,
+  ) {
+    try {
+      const parsedStartDate = new Date(startDate);
+      const parsedEndDate = new Date(endDate);
+
+      // Ensure dates are valid
+      if (isNaN(parsedStartDate.getTime()) || isNaN(parsedEndDate.getTime())) {
+        throw new Error('Invalid date format');
+      }
+
+      const transactions = await this.transactionService.getTransactionsInRange(
+        $Enums.TransactionType[
+          transactionType as keyof typeof $Enums.TransactionType
+        ],
+        parsedStartDate,
+        parsedEndDate,
+      );
+
+      return transactions;
+    } catch (error) {
+      console.error('Error in getTransactionInRange:', error);
+      throw error;
+    }
+  }
+
   @Delete('delete-transaction/:id')
   async deleteTransaction(@Param('id') id: string) {
     return await this.transactionService.deleteTransaction(id);

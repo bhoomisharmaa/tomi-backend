@@ -68,6 +68,29 @@ export class TransactionsService {
     }
   }
 
+  async getTransactionsInRange(
+    transactionType: $Enums.TransactionType,
+    startDate: Date,
+    endDate: Date,
+  ) {
+    try {
+      const transactions = await this.databaseService.transaction.findMany({
+        where: {
+          type: transactionType,
+          date: {
+            gte: startDate,
+            lte: endDate,
+          },
+        },
+      });
+
+      return transactions;
+    } catch (error) {
+      console.error('Error fetching transactions:', error);
+      throw error;
+    }
+  }
+
   async deleteTransaction(id: string) {
     try {
       await this.databaseService.transaction.delete({
