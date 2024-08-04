@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { $Enums, Prisma } from '@prisma/client';
-import { DatabaseService } from 'src/database/database.service';
+import { DatabaseService } from '../database/database.service';
 
 @Injectable()
 export class TransactionsService {
@@ -8,12 +8,11 @@ export class TransactionsService {
 
   async createTransaction(data: Prisma.TransactionCreateInput) {
     try {
-      const transaction = this.databaseService.user.update({
+      const transaction = await this.databaseService.user.update({
         where: {
           id: 'clyj1wmmh0000izpo07lh36gt',
           AND: [{ firstName: 'Bhoomi' }],
         },
-
         data: {
           transactions: {
             create: data,
@@ -23,6 +22,7 @@ export class TransactionsService {
       return transaction;
     } catch (error) {
       console.log('Error making your transaction', error);
+      throw new Error('Transaction creation failed'); // Re-throw the error or handle it appropriately
     } finally {
       await this.databaseService.$disconnect();
     }
@@ -41,8 +41,9 @@ export class TransactionsService {
       return transactions;
     } catch (error) {
       console.log('Error fetching transactions', error);
+      throw new Error('Transaction fetching failed');
     } finally {
-      this.databaseService.$disconnect();
+      await this.databaseService.$disconnect();
     }
   }
 
@@ -63,6 +64,7 @@ export class TransactionsService {
       return transactions;
     } catch (error) {
       console.log('Error getting transaction', error);
+      throw new Error('Transaction getting failed');
     } finally {
       await this.databaseService.$disconnect();
     }
